@@ -17,6 +17,8 @@
 # Make sure the default target is to simply build and run the benchmark.
 RSTAMP = v1.0
 
+SEPARATE_COMPILE=1
+
 .PHONY: run score
 run: $(OUTFILE) rerun score
 
@@ -56,6 +58,11 @@ FORCE_REBUILD=force_rebuild
 endif
 
 CFLAGS += -DITERATIONS=$(ITERATIONS)
+ifndef WASM
+CFLAGS += -static-pie -flto=full -fomit-frame-pointer
+else
+CFLAGS += -flto=full --sysroot /usr/share/wasi-sysroot -target wasm32-unknown-wasi
+endif
 
 CORE_FILES = core_list_join core_main core_matrix core_state core_util
 ORIG_SRCS = $(addsuffix .c,$(CORE_FILES))
@@ -79,8 +86,7 @@ $(OPATH)$(PORT_DIR):
 
 compile: $(OPATH) $(OPATH)$(PORT_DIR) $(OBJS) $(HEADERS) 
 link: compile 
-	$(LD) $(LFLAGS) $(XLFLAGS) $(OBJS) $(LOUTCMD)
-	
+	$(CC) $(CFLAGS) $(LFLAGS) $(XLFLAGS) $(OBJS) $(LOUTCMD)
 else
 
 compile: $(OPATH) $(SRCS) $(HEADERS) 
