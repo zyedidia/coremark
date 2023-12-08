@@ -57,11 +57,11 @@ ifdef REBUILD
 FORCE_REBUILD=force_rebuild
 endif
 
-CFLAGS += -DITERATIONS=$(ITERATIONS)
+CFLAGS += -DITERATIONS=$(ITERATIONS) -DPERFORMANCE_RUN=1
 ifndef WASM
 CFLAGS += -static-pie -flto=full -fomit-frame-pointer
 else
-CFLAGS += -flto=full --sysroot /usr/share/wasi-sysroot -target wasm32-unknown-wasi -msimd128
+CFLAGS += -flto=full --sysroot /opt/wasi-sysroot -target wasm32-unknown-wasi -D_WASI_EMULATED_SIGNAL -lwasi-emulated-signal -D_WASI_EMULATED_GETPID -lwasi-emulated-getpid -D_WASI_EMULATED_PROCESS_CLOCKS -lwasi-emulated-process-clocks
 endif
 
 CORE_FILES = core_list_join core_main core_matrix core_state core_util
