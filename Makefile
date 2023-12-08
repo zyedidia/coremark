@@ -61,7 +61,7 @@ CFLAGS += -DITERATIONS=$(ITERATIONS)
 ifndef WASM
 CFLAGS += -static-pie -flto=full -fomit-frame-pointer
 else
-CFLAGS += -flto=full --sysroot /usr/share/wasi-sysroot -target wasm32-unknown-wasi
+CFLAGS += -flto=full --sysroot /usr/share/wasi-sysroot -target wasm32-unknown-wasi -msimd128
 endif
 
 CORE_FILES = core_list_join core_main core_matrix core_state core_util

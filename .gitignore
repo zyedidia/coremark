@@ -1,3 +1,4 @@
 *.out
 *.aot
 *.o
+*.exe
