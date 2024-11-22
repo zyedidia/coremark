@@ -12,6 +12,6 @@ srcs = files(
 executable(
   'coremark',
   srcs,
-  c_args: ['-DPERFORMANCE_RUN=1', '-DITERATIONS=0', '-DFLAGS_STR=""'],
+  c_args: ['-DPERFORMANCE_RUN=1', '-DITERATIONS=0', '-DFLAGS_STR=""', '-static-pie'],
   include_directories: include_directories('linux', 'posix', '.'),
 )
